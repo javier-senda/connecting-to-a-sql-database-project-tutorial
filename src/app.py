@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 1) Conexión a la BBDD
-
-
 def connect():
     global engine
     try:
@@ -28,7 +26,7 @@ engine = connect()
 if engine is None:
     exit()
 
-# 2) Crear las tablas
+# Crear las tablas
 with engine.connect() as connection:
     connection.execute(text("""
     CREATE TABLE IF NOT EXISTS publishers(
@@ -66,7 +64,7 @@ CREATE TABLE IF NOT EXISTS book_authors (
 );
     """))
 
-# 3) Insert data
+#3 Inserts
 with engine.connect() as connection:
     connection.execute(text("""
     INSERT INTO publishers (publisher_id, name) VALUES
@@ -117,6 +115,6 @@ with engine.connect() as connection:
     ON CONFLICT (book_id, author_id) DO NOTHING;
     """))
     
-
+#4: Usar pandas 
 ej4 = pd.read_sql("SELECT * FROM publishers;", engine)
 print(ej4)
